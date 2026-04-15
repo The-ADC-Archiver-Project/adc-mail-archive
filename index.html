@@ -8,31 +8,50 @@
   <div id="app"></div>
 
   <script>
+    function toggle(id) {
+      const el = document.getElementById(id)
+      if (el.style.display === "none") {
+        el.style.display = "block"
+      } else {
+        el.style.display = "none"
+      }
+    }
+
     fetch('./feed.json')
       .then(r => r.json())
       .then(data => {
         const app = document.getElementById("app")
 
-        data.forEach(thread => {
-          const threadDiv = document.createElement("div")
+        data.forEach((thread, i) => {
+          const threadId = "thread_" + i
 
-          threadDiv.innerHTML = `
-            <h2>${thread.thread} (${thread.count})</h2>
+          const container = document.createElement("div")
+
+          let html = `
+            <div style="margin-bottom:10px;">
+              <h2 style="cursor:pointer;" onclick="toggle('${threadId}')">
+                ${thread.thread} (${thread.count})
+              </h2>
+              <div id="${threadId}" style="display:none; padding-left:15px;">
           `
 
           thread.items.forEach(item => {
-            const post = document.createElement("div")
-
-            post.innerHTML = `
-              <h4>${item.title}</h4>
-              <pre style="white-space: pre-wrap">${item.content}</pre>
-              <hr>
+            html += `
+              <div style="margin-bottom:10px;">
+                <h4>${item.title}</h4>
+                <pre style="white-space: pre-wrap">${item.content}</pre>
+                <hr>
+              </div>
             `
-
-            threadDiv.appendChild(post)
           })
 
-          app.appendChild(threadDiv)
+          html += `
+              </div>
+            </div>
+          `
+
+          container.innerHTML = html
+          app.appendChild(container)
         })
       })
   </script>
