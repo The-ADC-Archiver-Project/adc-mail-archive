@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ADC Mail Archive</title>
+</head>
+<body>
+  <h1>ADC Mail Archive</h1>
+  <div id="list"></div>
+
+  <script>
+    fetch('./feed.json')
+      .then(r => r.json())
+      .then(data => {
+        const list = document.getElementById("list")
+
+        data.reverse().forEach(item => {
+          const div = document.createElement("div")
+
+          div.innerHTML = `
+            <h3>${item.title}</h3>
+            <pre style="white-space: pre-wrap">${item.content}</pre>
+            <hr>
+          `
+
+          list.appendChild(div)
+        })
+      })
+  </script>
+</body>
+</html>
