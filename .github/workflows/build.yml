@@ -25,7 +25,12 @@ jobs:
 
       - name: build index
         run: python scripts/build_index.py
-        
+
+      - name: show files (debug)
+        run: |
+          ls -R
+          cat feed.json || true
+
       - name: commit changes
         run: |
           git config user.name github-actions
