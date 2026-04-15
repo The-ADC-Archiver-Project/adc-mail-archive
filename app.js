@@ -1,45 +1,15 @@
-function toggle(id) {
-  const el = document.getElementById(id)
-  if (el.style.display === "none") {
-    el.style.display = "block"
-  } else {
-    el.style.display = "none"
-  }
-}
+thread.items.forEach(item => {
+  html += `
+    <div style="margin-bottom:10px;">
+      <h4>
+        ${item.title}
+        <a href="${item.link}" target="_blank" style="margin-left:8px;">
+          📧
+        </a>
+      </h4>
 
-fetch('./feed.json')
-  .then(r => r.json())
-  .then(data => {
-    const app = document.getElementById("app")
-
-    data.forEach((thread, i) => {
-      const threadId = "thread_" + i
-      const container = document.createElement("div")
-
-      let html = `
-        <div style="margin-bottom:10px;">
-          <h2 style="cursor:pointer;" onclick="toggle('${threadId}')">
-            ${thread.thread} (${thread.count})
-          </h2>
-          <div id="${threadId}" style="display:none; padding-left:15px;">
-      `
-
-      thread.items.forEach(item => {
-        html += `
-          <div style="margin-bottom:10px;">
-            <h4>${item.title}</h4>
-            <pre style="white-space: pre-wrap">${item.content}</pre>
-            <hr>
-          </div>
-        `
-      })
-
-      html += `
-          </div>
-        </div>
-      `
-
-      container.innerHTML = html
-      app.appendChild(container)
-    })
-  })
+      <pre style="white-space: pre-wrap">${item.content}</pre>
+      <hr>
+    </div>
+  `
+})

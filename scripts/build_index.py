@@ -1,49 +1,31 @@
-import os
 import json
-import re
 
-OUTPUT_DIR = "output"
+with open("feed_raw.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
 
 threads = {}
 
-def clean_subject(subject):
-    subject = subject.lower()
-    subject = re.sub(r"re:\s*", "", subject)
-    return subject.strip()
+for item in data:
+    title = item["title"]
+    content = item["content"]
+    link = item["link"]
 
-for file in os.listdir(OUTPUT_DIR):
-    if not file.endswith(".md"):
-        continue
+    thread_key = title.split(":")[0]
 
-    path = os.path.join(OUTPUT_DIR, file)
+    if thread_key not in threads:
+        threads[thread_key] = {
+            "thread": thread_key,
+            "count": 0,
+            "items": []
+        }
 
-    with open(path, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    lines = content.split("\n")
-    title = lines[0].replace("#", "").strip()
-
-    subject = clean_subject(title)
-
-    if subject not in threads:
-        threads[subject] = []
-
-    threads[subject].append({
+    threads[thread_key]["items"].append({
         "title": title,
-        "file": f"output/{file}",
-        "content": content
+        "content": content,
+        "link": link
     })
 
-feed = []
-
-for subject, items in threads.items():
-    feed.append({
-        "thread": subject,
-        "count": len(items),
-        "items": items
-    })
+    threads[thread_key]["count"] += 1
 
 with open("feed.json", "w", encoding="utf-8") as f:
-    json.dump(feed, f, indent=2)
-
-print("threaded index built")
+    json.dump(list(threads.values()), f, indent=2, ensure_ascii=False)

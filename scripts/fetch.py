@@ -1,24 +1,18 @@
 import feedparser
-import os
+import json
 
 RSS_URL = "https://freelists.org/feed/adc"
-OUTPUT_DIR = "output"
-
-os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 feed = feedparser.parse(RSS_URL)
 
+items = []
+
 for entry in feed.entries:
-    title = entry.get("title", "no-title")
-    content = entry.get("summary", "")
-    date = entry.get("published", "no-date")
+    items.append({
+        "title": entry.get("title", ""),
+        "content": entry.get("summary", ""),
+        "link": entry.get("link", "")
+    })
 
-    safe_title = "".join(c for c in title if c.isalnum() or c in " -_").strip()[:80]
-    filename = f"{OUTPUT_DIR}/{safe_title}.md"
-
-    md = f"# {title}\n\n{date}\n\n{content}\n"
-
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(md)
-
-print("done")
+with open("feed_raw.json", "w", encoding="utf-8") as f:
+    json.dump(items, f, indent=2, ensure_ascii=False)
