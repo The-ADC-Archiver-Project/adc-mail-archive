@@ -7,10 +7,12 @@ with open("feed_raw.json", "r", encoding="utf-8") as f:
 threads = {}
 
 def get_thread_key(title):
-    title = re.sub(r"^(Re:\s*)+", "", title)
-    title = re.sub(r"^\[ADC\]\s*", "", title)
+    title = title.lower()
+    title = re.sub(r"(\bre:\s*)+", "", title, flags=re.IGNORECASE)
+    title = re.sub(r"^\[[^\]]+\]\s*", "", title)
+    title = re.sub(r"[^\w\s]", "", title)  # optional: remove punctuation
     title = re.sub(r"\s+", " ", title)
-    return title.strip().lower()
+    return title.strip()
 
 for item in data:
     title = item["title"]
