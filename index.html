@@ -5,24 +5,34 @@
 </head>
 <body>
   <h1>ADC Mail Archive</h1>
-  <div id="list"></div>
+  <div id="app"></div>
 
   <script>
     fetch('./feed.json')
       .then(r => r.json())
       .then(data => {
-        const list = document.getElementById("list")
+        const app = document.getElementById("app")
 
-        data.reverse().forEach(item => {
-          const div = document.createElement("div")
+        data.forEach(thread => {
+          const threadDiv = document.createElement("div")
 
-          div.innerHTML = `
-            <h3>${item.title}</h3>
-            <pre style="white-space: pre-wrap">${item.content}</pre>
-            <hr>
+          threadDiv.innerHTML = `
+            <h2>${thread.thread} (${thread.count})</h2>
           `
 
-          list.appendChild(div)
+          thread.items.forEach(item => {
+            const post = document.createElement("div")
+
+            post.innerHTML = `
+              <h4>${item.title}</h4>
+              <pre style="white-space: pre-wrap">${item.content}</pre>
+              <hr>
+            `
+
+            threadDiv.appendChild(post)
+          })
+
+          app.appendChild(threadDiv)
         })
       })
   </script>
