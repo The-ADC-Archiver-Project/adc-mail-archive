@@ -1,19 +1,13 @@
 [
   {
-    "thread": "re: [dev] tarballs hold broken install.sh and invterm.sh",
-    "count": 1,
+    "thread": "dev tarballs hold broken installsh and invtermsh",
+    "count": 2,
     "items": [
       {
         "title": "[ADC] Re: [DEV] Tarballs hold broken install.sh and invterm.sh",
         "content": "Has been fixed!\n\nNew tarballs are now available.\n\nOp 15-4-2026 om 18:55 schreef Nathan du Buy:\n\n\nThe official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \n ...",
         "link": "http://www.freelists.org/post/adc/DEV-Tarballs-hold-broken-installsh-and-invtermsh,1"
-      }
-    ]
-  },
-  {
-    "thread": "[dev] tarballs hold broken install.sh and invterm.sh",
-    "count": 1,
-    "items": [
+      },
       {
         "title": "[ADC] [DEV] Tarballs hold broken install.sh and invterm.sh",
         "content": "The official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \nand tomorrow night.\n\n\n--\nNathan du Buy\nOpen Source Developer\n\n*OpenPGP fingerprint*\n ...",
@@ -22,7 +16,7 @@
     ]
   },
   {
-    "thread": "[ann] this is a test mail to check the mailing list",
+    "thread": "ann this is a test mail to check the mailing list",
     "count": 1,
     "items": [
       {
