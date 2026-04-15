@@ -1,28 +1,34 @@
 [
   {
-    "thread": "[adc] [dev] tarballs hold broken install.sh and invterm.sh",
-    "count": 2,
+    "thread": "[ADC] Re",
+    "count": 1,
     "items": [
       {
-        "title": "[ADC] [DEV] Tarballs hold broken install.sh and invterm.sh",
-        "file": "output/ADC DEV Tarballs hold broken installsh and invtermsh.md",
-        "content": "# [ADC] [DEV] Tarballs hold broken install.sh and invterm.sh\n\nno-date\n\nThe official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \nand tomorrow night.\n\n\n--\nNathan du Buy\nOpen Source Developer\n\n*OpenPGP fingerprint*\n ...\n"
-      },
-      {
         "title": "[ADC] Re: [DEV] Tarballs hold broken install.sh and invterm.sh",
-        "file": "output/ADC Re DEV Tarballs hold broken installsh and invtermsh.md",
-        "content": "# [ADC] Re: [DEV] Tarballs hold broken install.sh and invterm.sh\n\nno-date\n\nHas been fixed!\n\nNew tarballs are now available.\n\nOp 15-4-2026 om 18:55 schreef Nathan du Buy:\n\n\nThe official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \n ...\n"
+        "content": "Has been fixed!\n\nNew tarballs are now available.\n\nOp 15-4-2026 om 18:55 schreef Nathan du Buy:\n\n\nThe official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \n ...",
+        "link": "http://www.freelists.org/post/adc/DEV-Tarballs-hold-broken-installsh-and-invtermsh,1"
       }
     ]
   },
   {
-    "thread": "[adc] [ann] this is a test mail to check the mailing list",
+    "thread": "[ADC] [DEV] Tarballs hold broken install.sh and invterm.sh",
+    "count": 1,
+    "items": [
+      {
+        "title": "[ADC] [DEV] Tarballs hold broken install.sh and invterm.sh",
+        "content": "The official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \nand tomorrow night.\n\n\n--\nNathan du Buy\nOpen Source Developer\n\n*OpenPGP fingerprint*\n ...",
+        "link": "http://www.freelists.org/post/adc/DEV-Tarballs-hold-broken-installsh-and-invtermsh"
+      }
+    ]
+  },
+  {
+    "thread": "[ADC] [ANN] This is a test mail to check the mailing list",
     "count": 1,
     "items": [
       {
         "title": "[ADC] [ANN] This is a test mail to check the mailing list",
-        "file": "output/ADC ANN This is a test mail to check the mailing list.md",
-        "content": "# [ADC] [ANN] This is a test mail to check the mailing list\n\nno-date\n\nTest\n\n--\nNathan du Buy\nOpen Source Developer\n\n*OpenPGP fingerprint*\n|02D7 2154 D625 B937 CCA7 4FD2 3133 1ED9 0BDC 8954|\n\n ...\n"
+        "content": "Test\n\n--\nNathan du Buy\nOpen Source Developer\n\n*OpenPGP fingerprint*\n|02D7 2154 D625 B937 CCA7 4FD2 3133 1ED9 0BDC 8954|\n\n ...",
+        "link": "http://www.freelists.org/post/adc/ANN-This-is-a-test-mail-to-check-the-mailing-list"
       }
     ]
   }
