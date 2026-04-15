@@ -1,16 +1,23 @@
 import json
+import re
 
 with open("feed_raw.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
 threads = {}
 
+def get_thread_key(title):
+    title = re.sub(r"^(Re:\s*)+", "", title)
+    title = re.sub(r"^\[ADC\]\s*", "", title)
+    title = re.sub(r"\s+", " ", title)
+    return title.strip().lower()
+
 for item in data:
     title = item["title"]
     content = item["content"]
     link = item["link"]
 
-    thread_key = title.split(":")[0]
+    thread_key = get_thread_key(title)
 
     if thread_key not in threads:
         threads[thread_key] = {
