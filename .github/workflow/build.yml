@@ -23,6 +23,9 @@ jobs:
       - name: run fetch
         run: python scripts/fetch.py
 
+      - name: build index
+        run: python scripts/build_index.py
+        
       - name: commit changes
         run: |
           git config user.name github-actions
