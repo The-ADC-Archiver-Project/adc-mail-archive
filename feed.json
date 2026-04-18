@@ -44,12 +44,17 @@
   },
   {
     "thread": "dev aurora will get newer code base",
-    "count": 1,
+    "count": 2,
     "items": [
       {
         "title": "[ADC] [DEV] Aurora will get newer code base",
         "content": "[DEV] ADC Aurora will get a newer code base, The current canary \n   code works well which means \ni will port it to the Aurora (Unstable) branch, expect new code coming \ndays to the Aurora branch \n  .\n\n\n~Mealman1551\n\n--\n ...",
         "link": "http://www.freelists.org/post/adc/DEV-Aurora-will-get-newer-code-base"
+      },
+      {
+        "title": "[ADC] Re: [DEV] Aurora will get newer code base",
+        "content": "Initial branch made, will merge into ADC-Unstable coming days/week.\n\nBranch: aurora04_26 \n  \n\n\nOp 18-4-2026 om 17:28 schreef Nathan du Buy:\n\n\n ...",
+        "link": "http://www.freelists.org/post/adc/DEV-Aurora-will-get-newer-code-base,1"
       }
     ]
   }
