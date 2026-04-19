@@ -2,10 +2,10 @@ import json
 import re
 
 def extract_tags(title):
-    tags = re.findall(r"\[[^\]]+\]", title)
+    tags = re.findall(r"\[([^\]]+)\]", title)
     seen = []
     for t in tags:
-        t = t.upper()
+        t = t.upper().strip()
         if t not in seen:
             seen.append(t)
     return seen
@@ -13,7 +13,7 @@ def extract_tags(title):
 def strip_tags(title):
     return re.sub(r"\[[^\]]+\]", "", title).strip()
 
-def get_key(title):
+def clean_key(title):
     t = strip_tags(title)
     t = re.sub(r"(\bre:\s*)+", "", t, flags=re.IGNORECASE)
     t = re.sub(r"\s+", " ", t)
@@ -26,10 +26,8 @@ threads = {}
 
 for item in items:
     title = item["title"]
-    content = item["content"]
-    link = item["link"]
 
-    key = get_key(title)
+    key = clean_key(title)
 
     if key not in threads:
         threads[key] = {
@@ -42,7 +40,5 @@ for item in items:
     threads[key]["items"].append(item)
     threads[key]["count"] += 1
 
-result = list(threads.values())
-
 with open("data/feed.json", "w", encoding="utf-8") as f:
-    json.dump(result, f, indent=2, ensure_ascii=False)
+    json.dump(list(threads.values()), f, indent=2, ensure_ascii=False)

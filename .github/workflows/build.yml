@@ -16,13 +16,17 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: create data dir
+        run: mkdir -p data
+
       - run: pip install -r requirements.txt
 
       - run: python scripts/fetch_archive.py
 
       - run: python scripts/build_index.py
 
-      - run: |
+      - name: commit
+        run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add data/

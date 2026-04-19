@@ -4,7 +4,7 @@ import json
 
 BASE = "https://www.freelists.org/archive/adc"
 
-def get_archive_pages():
+def get_pages():
     r = requests.get(BASE)
     soup = BeautifulSoup(r.text, "html.parser")
 
@@ -12,7 +12,7 @@ def get_archive_pages():
 
     for a in soup.find_all("a"):
         href = a.get("href", "")
-        if "archive/adc" in href and href != "/archive/adc":
+        if "/archive/adc/" in href:
             if href.startswith("http"):
                 pages.add(href)
             else:
@@ -20,45 +20,34 @@ def get_archive_pages():
 
     return list(pages)
 
-def get_messages(page_url):
-    r = requests.get(page_url)
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    messages = []
-
-    for a in soup.find_all("a"):
-        href = a.get("href", "")
-        text = a.text.strip()
-
-        if "/post/adc/" in href:
-            messages.append({
-                "title": text,
-                "link": "https://www.freelists.org" + href
-            })
-
-    return messages
-
-def get_full_mail(url):
+def get_messages(url):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    text = soup.get_text("\n")
+    out = []
 
-    return text.strip()
+    for a in soup.find_all("a"):
+        href = a.get("href", "")
+        if "/post/adc/" in href:
+            out.append({
+                "title": a.text.strip(),
+                "link": "https://www.freelists.org" + href
+            })
 
-all_pages = get_archive_pages()
+    return out
+
+def get_full(url):
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, "html.parser")
+    return soup.get_text("\n").strip()
 
 all_items = []
 
-for page in all_pages:
-    messages = get_messages(page)
-
-    for msg in messages:
-        full = get_full_mail(msg["link"])
-
+for page in get_pages():
+    for msg in get_messages(page):
         all_items.append({
             "title": msg["title"],
-            "content": full,
+            "content": get_full(msg["link"]),
             "link": msg["link"]
         })
 

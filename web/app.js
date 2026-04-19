@@ -9,8 +9,7 @@ function render(data) {
   const app = document.getElementById("app")
   app.innerHTML = ""
 
-  data.forEach(thread => {
-
+  data.reverse().forEach(thread => {
     let items = ""
 
     thread.items.forEach(m => {
@@ -26,12 +25,14 @@ function render(data) {
       `
     })
 
+    const tags = (thread.tags || []).join(" ")
+
     const el = document.createElement("div")
 
     el.innerHTML = `
       <details style="margin-bottom:12px; border:1px solid #ddd; padding:8px;">
         <summary>
-          ${(thread.tags || []).join(" ")} ${thread.thread} (${thread.count})
+          ${tags} ${escape(thread.thread)} (${thread.count})
         </summary>
         <div>${items}</div>
       </details>
@@ -42,7 +43,7 @@ function render(data) {
 }
 
 function load() {
-  fetch("../data/feed.json")
+  fetch("./../data/feed.json")
     .then(r => r.json())
     .then(d => {
       render(d)
