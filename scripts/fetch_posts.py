@@ -1,6 +1,7 @@
 import imaplib
 import email
 from email.header import decode_header
+from email.utils import parsedate
 import json
 import os
 
@@ -33,13 +34,13 @@ def get_body(msg):
             body = payload.decode(msg.get_content_charset() or "utf-8", errors="replace")
     return body.strip()
 
-# Verbind met Gmail
 mail = imaplib.IMAP4_SSL("imap.gmail.com")
 mail.login(GMAIL_USER, GMAIL_PASS)
 mail.select("inbox")
 
-# Zoek alle mails van de ADC lijst
-status, messages = mail.search(None, 'FROM "adc@freelists.org"')
+status, messages = mail.search(None, 'FROM "dmarc-noreply@freelists.org"')
+
+print("Gevonden:", len(messages[0].split()))
 
 result = {}
 
@@ -48,13 +49,10 @@ for num in messages[0].split():
     msg = email.message_from_bytes(data[0][1])
 
     subject = decode_str(msg["Subject"])
-    sender = decode_str(msg["From"])
     date = msg["Date"]
     url = msg.get("X-List-Archive", "")
     body = get_body(msg)
 
-    # Groepeer per maand
-    from email.utils import parsedate
     parsed_date = parsedate(date)
     if parsed_date:
         month_key = f"{parsed_date[1]:02d}-{parsed_date[0]}"
@@ -72,7 +70,6 @@ for num in messages[0].split():
 
 mail.logout()
 
-# Bouw de JSON structuur
 output = {
     "months": [
         {"month": k, "posts": v}
