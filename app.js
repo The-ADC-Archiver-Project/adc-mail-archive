@@ -46,7 +46,7 @@ function render(data) {
           font-size:16px;
           font-weight:bold;
         ">
-          ${escapeHtml(thread.thread)} (${thread.count})
+          ${thread.tag ? thread.tag + " " : ""}${escapeHtml(thread.thread)} (${thread.count})
         </summary>
 
         <div style="padding-left:12px; margin-top:10px;">
