@@ -10,13 +10,18 @@ def get_thread_key(title):
     return t.strip()
 
 def extract_tags(title):
-    return re.findall(r"\[[^\]]+\]", title)
+    tags = re.findall(r"\[[^\]]+\]", title)
+    cleaned = []
+    for t in tags:
+        if t not in cleaned:
+            cleaned.append(t)
+    return cleaned
 
 def clean_title(title):
+    title = re.sub(r"^\[[^\]]+\]\s*", "", title)
     title = re.sub(r"(\bre:\s*)+", "", title, flags=re.IGNORECASE)
     return title.strip()
 
-# 🔥 ONLY USE RSS AS SOURCE OF TRUTH
 with open("feed_raw.json", "r", encoding="utf-8") as f:
     items = json.load(f)
 
@@ -33,7 +38,7 @@ for item in items:
     if key not in threads:
         threads[key] = {
             "thread": clean_title(title),
-            "tags": " ".join(extract_tags(title)),  # ONLY ONCE
+            "tags": extract_tags(title),   # 🔥 ARRAY, geen string
             "count": 0,
             "items": []
         }
@@ -46,10 +51,6 @@ for item in items:
     })
 
     threads[key]["count"] += 1
-
-# reverse items so newest first inside thread
-for t in threads.values():
-    t["items"] = list(reversed(t["items"]))
 
 result = [threads[k] for k in order]
 
