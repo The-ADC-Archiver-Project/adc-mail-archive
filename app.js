@@ -18,7 +18,9 @@ function render(months) {
       el.innerHTML = `
         <details>
           <summary>${escape(post.title)}</summary>
-          <p><a href="${post.url}" target="_blank">📧 Open origineel</a></p>
+          <p><a href="${post.url}" target="_blank"> Open original
+          <img src="/assets/icon.svg" style="width:16px; height:16px; vertical-align:middle; margin-right:4px;" />
+          </a></p>
           <pre style="white-space:pre-wrap">${escape(post.body)}</pre>
         </details>
       `
