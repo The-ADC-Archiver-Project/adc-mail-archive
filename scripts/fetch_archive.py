@@ -14,19 +14,16 @@ os.makedirs(DATA_DIR, exist_ok=True)
 
 scraper = cloudscraper.create_scraper()
 
-def get_month_urls():
+def get_months():
     r = scraper.get(INDEX)
     soup = BeautifulSoup(r.text, "html.parser")
 
     months = []
 
-    for a in soup.find_all("a"):
-        href = a.get("href")
+    for a in soup.select("a[href]"):
+        href = a["href"]
 
-        if not href:
-            continue
-
-        if "/archive/adc/" in href and href.count("/") == 3:
+        if "/archive/adc/" in href and href.count("/") >= 3:
             months.append(urljoin(BASE, href))
 
     return list(set(months))
@@ -37,47 +34,46 @@ def get_posts(month_url):
 
     posts = []
 
-    for a in soup.find_all("a"):
-        href = a.get("href")
+    for a in soup.select("a[href]"):
+        href = a["href"]
         title = a.get_text(strip=True)
 
-        if not href:
-            continue
+        full_url = urljoin(BASE, href)
 
-        if "/post/adc/" in href:
+        if "/post/adc/" in full_url:
             posts.append({
                 "title": title,
-                "url": urljoin(BASE, href)
+                "url": full_url
             })
 
     return posts
 
 def main():
-    months = get_month_urls()
+    months = get_months()
 
-    print("MONTHS:", len(months))
+    print("MONTHS FOUND:", len(months))
 
-    archive = {
+    result = {
         "months": []
     }
 
     for m in months:
         month_name = m.rstrip("/").split("/")[-1]
 
-        print("SCRAPING MONTH:", month_name)
+        print("MONTH:", month_name)
 
         posts = get_posts(m)
 
         print("POSTS:", len(posts))
 
-        archive["months"].append({
+        result["months"].append({
             "month": month_name,
             "count": len(posts),
             "posts": posts
         })
 
     with open(OUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(archive, f, indent=2, ensure_ascii=False)
+        json.dump(result, f, indent=2, ensure_ascii=False)
 
     print("DONE")
 
