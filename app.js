@@ -41,7 +41,7 @@ function render(months) {
         <div style="margin:8px 0; padding:8px; border-top:1px solid #eee;">
           <h3 style="margin:0 0 4px 0;">${escape(post.title)}</h3>
           <a href="${post.url}" target="_blank" style="margin-left:6px;">
-            <img src="https://raw.githubusercontent.com/The-ADC-Archiver-Project/adc-mail-archive/refs/heads/main/assets/icon.svg" style="width:16px; height:16px; vertical-align:middle;" />
+            <!-- <img src="https://raw.githubusercontent.com/The-ADC-Archiver-Project/adc-mail-archive/refs/heads/main/assets/icon.svg" --> style="width:16px; height:16px; vertical-align:middle;" />
           </a>
           <pre style="white-space:pre-wrap; margin-top:6px;">${escape(post.body)}</pre>
         </div>
