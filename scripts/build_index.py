@@ -16,31 +16,14 @@ def clean_title(title):
     title = re.sub(r"(\bre:\s*)+", "", title, flags=re.IGNORECASE)
     return title.strip()
 
+# 🔥 ONLY USE RSS AS SOURCE OF TRUTH
 with open("feed_raw.json", "r", encoding="utf-8") as f:
-    new_data = json.load(f)
-
-existing_items = []
-
-if os.path.exists("feed.json"):
-    with open("feed.json", "r", encoding="utf-8") as f:
-        old_threads = json.load(f)
-        for thread in old_threads:
-            for item in thread["items"]:
-                existing_items.append(item)
-
-existing_links = set(item["link"] for item in existing_items)
-
-all_items = []
-for item in new_data:
-    if item["link"] not in existing_links:
-        all_items.append(item)
-
-all_items.extend(existing_items)
+    items = json.load(f)
 
 threads = {}
-thread_order = []
+order = []
 
-for item in all_items:
+for item in items:
     title = item["title"]
     content = item["content"]
     link = item["link"]
@@ -48,16 +31,13 @@ for item in all_items:
     key = get_thread_key(title)
 
     if key not in threads:
-        # 🔥 TAGS ONLY ONCE (IMPORTANT FIX)
-        tags = extract_tags(title)
-
         threads[key] = {
             "thread": clean_title(title),
-            "tags": " ".join(tags),   # NO duplication possible anymore
+            "tags": " ".join(extract_tags(title)),  # ONLY ONCE
             "count": 0,
             "items": []
         }
-        thread_order.append(key)
+        order.append(key)
 
     threads[key]["items"].append({
         "title": title,
@@ -67,7 +47,11 @@ for item in all_items:
 
     threads[key]["count"] += 1
 
-result = [threads[k] for k in thread_order]
+# reverse items so newest first inside thread
+for t in threads.values():
+    t["items"] = list(reversed(t["items"]))
+
+result = [threads[k] for k in order]
 
 with open("feed.json", "w", encoding="utf-8") as f:
     json.dump(result, f, indent=2, ensure_ascii=False)
