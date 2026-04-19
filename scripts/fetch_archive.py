@@ -1,90 +1,92 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-from urllib.parse import urljoin
+import time
 
 BASE = "https://www.freelists.org/archive/adc"
 
-session = requests.Session()
-session.headers.update({
-    "User-Agent": "Mozilla/5.0"
-})
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+}
 
-def get_soup(url):
-    r = session.get(url, timeout=30)
-    return BeautifulSoup(r.text, "html.parser")
+def get_month_pages():
+    r = requests.get(BASE, headers=HEADERS, timeout=30)
+    soup = BeautifulSoup(r.text, "html.parser")
 
-def extract_post_links(soup):
-    links = set()
+    pages = set()
 
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
+    for a in soup.select("a[href]"):
+        href = a.get("href")
+
+        if not href:
+            continue
+
+        if "/archive/adc/" in href:
+            if href.startswith("http"):
+                pages.add(href)
+            else:
+                pages.add("https://www.freelists.org" + href)
+
+    return list(pages)
+
+def get_messages(month_url):
+    r = requests.get(month_url, headers=HEADERS, timeout=30)
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    msgs = []
+
+    for a in soup.select("a[href]"):
+        href = a.get("href")
+        text = a.text.strip()
+
+        if not href:
+            continue
 
         if "/post/adc/" in href:
-            links.add(urljoin("https://www.freelists.org", href))
+            if not href.startswith("http"):
+                href = "https://www.freelists.org" + href
 
-    return links
+            msgs.append({
+                "title": text.replace("»", "").strip(),
+                "link": href
+            })
 
-def extract_month_links(soup):
-    links = set()
+    return msgs
 
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
+def get_full(url):
+    r = requests.get(url, headers=HEADERS, timeout=30)
+    soup = BeautifulSoup(r.text, "html.parser")
 
-        if "/archive/adc/" in href and href != "/archive/adc":
-            links.add(urljoin("https://www.freelists.org", href))
+    for tag in soup(["script", "style"]):
+        tag.decompose()
 
-    return links
+    return soup.get_text("\n").strip()
 
-def get_full_post(url):
-    soup = get_soup(url)
-    text = soup.get_text("\n")
-    return text.strip()
+all_items = []
 
-def get_title(soup):
-    h1 = soup.find("h1")
-    if h1:
-        return h1.get_text(strip=True)
-    return "no title"
+months = get_month_pages()
+print("MONTHS:", len(months))
 
-all_posts = set()
-to_visit = set([BASE])
-visited = set()
-
-while to_visit:
-    url = to_visit.pop()
-    if url in visited:
-        continue
-
-    visited.add(url)
-
+for month in months:
     try:
-        soup = get_soup(url)
-    except Exception:
-        continue
+        msgs = get_messages(month)
+        print("MSGS:", month, len(msgs))
 
-    posts = extract_post_links(soup)
-    all_posts.update(posts)
+        for msg in msgs:
+            try:
+                all_items.append({
+                    "title": msg["title"],
+                    "content": get_full(msg["link"]),
+                    "link": msg["link"]
+                })
+                time.sleep(0.2)
+            except Exception as e:
+                print("msg error:", e)
 
-    months = extract_month_links(soup)
-    to_visit.update(months)
+    except Exception as e:
+        print("month error:", month, e)
 
-print("FOUND POSTS:", len(all_posts))
-
-items = []
-
-for link in all_posts:
-    try:
-        soup = get_soup(link)
-        items.append({
-            "title": get_title(soup),
-            "content": soup.get_text("\n"),
-            "link": link
-        })
-    except Exception:
-        continue
+print("TOTAL ITEMS:", len(all_items))
 
 with open("data/feed_raw.json", "w", encoding="utf-8") as f:
-    json.dump(items, f, indent=2, ensure_ascii=False)
-
-print("DONE ITEMS:", len(items))
+    json.dump(all_items, f, indent=2, ensure_ascii=False)
