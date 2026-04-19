@@ -3,9 +3,17 @@ import re
 
 def get_thread_key(title):
     t = title.lower()
+
+    # remove ALL tags first
+    t = re.sub(r"\[[^\]]+\]", "", t)
+
+    # remove reply prefixes (re:, re 2:, etc)
     t = re.sub(r"(\bre:\s*)+", "", t, flags=re.IGNORECASE)
-    t = re.sub(r"^\[[^\]]+\]\s*", "", t)
+    t = re.sub(r"^\s*re\s*\d*:\s*", "", t, flags=re.IGNORECASE)
+
+    # normalize whitespace
     t = re.sub(r"\s+", " ", t)
+
     return t.strip()
 
 def extract_tags(title):
