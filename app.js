@@ -19,7 +19,7 @@ function render(months) {
         <details>
           <summary>${escape(post.title)}</summary>
           <p><a href="${post.url}" target="_blank"> Open original
-          <img src="/assets/icon.svg" style="width:16px; height:16px; vertical-align:middle; margin-right:4px;" />
+          <img src="https://raw.githubusercontent.com/The-ADC-Archiver-Project/adc-mail-archive/refs/heads/main/assets/icon.svg" style="width:16px; height:16px; vertical-align:middle; margin-right:4px;" />
           </a></p>
           <pre style="white-space:pre-wrap">${escape(post.body)}</pre>
         </details>
