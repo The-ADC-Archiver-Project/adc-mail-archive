@@ -1,10 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import re
 
 BASE = "https://www.freelists.org/archive/adc"
 
-def get_pages():
+def get_month_pages():
     r = requests.get(BASE)
     soup = BeautifulSoup(r.text, "html.parser")
 
@@ -12,7 +13,7 @@ def get_pages():
 
     for a in soup.find_all("a"):
         href = a.get("href", "")
-        if "/archive/adc/" in href:
+        if re.search(r"/archive/adc/\d{4}-\d{2}", href):
             if href.startswith("http"):
                 pages.add(href)
             else:
@@ -20,34 +21,39 @@ def get_pages():
 
     return list(pages)
 
-def get_messages(url):
-    r = requests.get(url)
+def get_messages(month_url):
+    r = requests.get(month_url)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    out = []
+    messages = []
 
     for a in soup.find_all("a"):
         href = a.get("href", "")
         if "/post/adc/" in href:
-            out.append({
+            if not href.startswith("http"):
+                href = "https://www.freelists.org" + href
+
+            messages.append({
                 "title": a.text.strip(),
-                "link": "https://www.freelists.org" + href
+                "link": href
             })
 
-    return out
+    return messages
 
-def get_full(url):
+def get_full_mail(url):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "html.parser")
-    return soup.get_text("\n").strip()
+
+    text = soup.get_text("\n")
+    return text.strip()
 
 all_items = []
 
-for page in get_pages():
-    for msg in get_messages(page):
+for month in get_month_pages():
+    for msg in get_messages(month):
         all_items.append({
             "title": msg["title"],
-            "content": get_full(msg["link"]),
+            "content": get_full_mail(msg["link"]),
             "link": msg["link"]
         })
 

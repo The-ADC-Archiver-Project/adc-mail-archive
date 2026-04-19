@@ -25,7 +25,7 @@ function render(data) {
       `
     })
 
-    const tags = (thread.tags || []).join(" ")
+    const tags = (thread.tags || []).map(t => `[${t}]`).join(" ")
 
     const el = document.createElement("div")
 
@@ -43,13 +43,14 @@ function render(data) {
 }
 
 function load() {
-  fetch("./../data/feed.json")
+  fetch("../data/feed.json")
     .then(r => r.json())
     .then(d => {
       render(d)
       document.getElementById("last-update").innerText =
         "Last update: " + new Date().toLocaleTimeString()
     })
+    .catch(err => console.error("load error:", err))
 }
 
 load()

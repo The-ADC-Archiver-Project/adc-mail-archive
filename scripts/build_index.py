@@ -26,7 +26,6 @@ threads = {}
 
 for item in items:
     title = item["title"]
-
     key = clean_key(title)
 
     if key not in threads:
