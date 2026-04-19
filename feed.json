@@ -1,6 +1,6 @@
 [
   {
-    "thread": "[TEST]",
+    "thread": "[ADC] [TEST]",
     "tags": "[ADC] [TEST]",
     "count": 2,
     "items": [
@@ -17,7 +17,7 @@
     ]
   },
   {
-    "thread": "[DEV] Tarballs hold broken install.sh and invterm.sh",
+    "thread": "[ADC] [DEV] Tarballs hold broken install.sh and invterm.sh",
     "tags": "[ADC] [DEV]",
     "count": 2,
     "items": [
@@ -34,7 +34,7 @@
     ]
   },
   {
-    "thread": "[DEV] Aurora will get newer code base",
+    "thread": "[ADC] [DEV] Aurora will get newer code base",
     "tags": "[ADC] [DEV]",
     "count": 2,
     "items": [
@@ -51,7 +51,7 @@
     ]
   },
   {
-    "thread": "[ANN] This is a test mail to check the mailing list",
+    "thread": "[ADC] [ANN] This is a test mail to check the mailing list",
     "tags": "[ADC] [ANN]",
     "count": 1,
     "items": [
