@@ -1,21 +1,21 @@
 function escapeHtml(str) {
-  return str
+  return (str || "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
+    .replaceAll(">", "&gt;")
 }
 
 function render(data) {
-  const app = document.getElementById("app");
-  app.innerHTML = "";
+  const app = document.getElementById("app")
+  app.innerHTML = ""
 
-  data.forEach((thread) => {
-    let itemsHtml = "";
+  data.forEach(thread => {
+    let itemsHtml = ""
 
-    thread.items.forEach((item) => {
-      const title = escapeHtml(item.title || "");
-      const content = escapeHtml(item.content || "");
-      const link = item.link || "#";
+    thread.items.forEach(item => {
+      const title = escapeHtml(item.title)
+      const content = escapeHtml(item.content)
+      const link = item.link || "#"
 
       itemsHtml += `
         <div style="margin-bottom:12px;">
@@ -29,10 +29,10 @@ function render(data) {
           <pre style="white-space: pre-wrap; margin-top:6px;">${content}</pre>
           <hr>
         </div>
-      `;
-    });
+      `
+    })
 
-    const wrapper = document.createElement("div");
+    const wrapper = document.createElement("div")
 
     wrapper.innerHTML = `
       <details style="
@@ -42,45 +42,44 @@ function render(data) {
         padding:8px;
       ">
         <summary style="
-  cursor:pointer;
-  font-size:16px;
-  font-weight:bold;
-">
-  ${escapeHtml((thread.tags || "") + " " + (thread.thread || ""))} (${thread.count})
-</summary>
+          cursor:pointer;
+          font-size:16px;
+          font-weight:bold;
+        ">
+          ${escapeHtml(thread.tags + " " + thread.thread)} (${thread.count})
+        </summary>
 
         <div style="padding-left:12px; margin-top:10px;">
           ${itemsHtml}
         </div>
       </details>
-    `;
+    `
 
-    app.appendChild(wrapper);
-  });
+    app.appendChild(wrapper)
+  })
 }
 
 function updateTimestamp() {
-  const el = document.getElementById("last-update");
+  const el = document.getElementById("last-update")
   if (el) {
-    el.innerText = "Last updated: " + new Date().toLocaleTimeString();
+    el.innerText = "Last updated: " + new Date().toLocaleTimeString()
   }
 }
 
 function loadData() {
-  fetch("./feed.json")
-    .then((r) => r.json())
-    .then((data) => {
-      render(data);
-      updateTimestamp();
+  fetch('./feed.json')
+    .then(r => r.json())
+    .then(data => {
+      render(data)
+      updateTimestamp()
     })
-    .catch((err) => {
-      console.error("Failed to load feed.json:", err);
-    });
+    .catch(err => {
+      console.error("Failed to load feed.json:", err)
+    })
 }
 
-loadData();
+loadData()
 
-// 🔁 elke minuut refresh
 setInterval(() => {
-  loadData();
-}, 60000);
+  loadData()
+}, 60000)

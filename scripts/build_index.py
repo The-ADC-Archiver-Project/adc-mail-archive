@@ -2,22 +2,24 @@ import json
 import re
 import os
 
-def normalize_title(title):
+def get_thread_key(title):
     t = title.lower()
     t = re.sub(r"(\bre:\s*)+", "", t, flags=re.IGNORECASE)
-    t = re.sub(r"\[[^\]]+\]", "", t)  # verwijder ALLE tags
-    t = re.sub(r"[^\w\s]", "", t)
+    t = re.sub(r"^\[[^\]]+\]\s*", "", t)
     t = re.sub(r"\s+", " ", t)
     return t.strip()
 
 def extract_tags(title):
-    return " ".join(re.findall(r"\[[^\]]+\]", title))
+    return re.findall(r"\[[^\]]+\]", title)
 
-# 🔹 load RSS
+def clean_title(title):
+    title = re.sub(r"^\[[^\]]+\]\s*", "", title)
+    title = re.sub(r"(\bre:\s*)+", "", title, flags=re.IGNORECASE)
+    return title.strip()
+
 with open("feed_raw.json", "r", encoding="utf-8") as f:
     new_data = json.load(f)
 
-# 🔹 load bestaande archive
 existing_items = []
 
 if os.path.exists("feed.json"):
@@ -27,20 +29,15 @@ if os.path.exists("feed.json"):
             for item in thread["items"]:
                 existing_items.append(item)
 
-# 🔹 deduplicate
 existing_links = set(item["link"] for item in existing_items)
-
-# 🔥 NIEUWSTE ITEMS ECHT BOVENAAN
 all_items = []
 
 for item in new_data:
     if item["link"] not in existing_links:
         all_items.append(item)
 
-# daarna oude items
 all_items.extend(existing_items)
 
-# 🔹 build threads
 threads = {}
 thread_order = []
 
@@ -49,13 +46,13 @@ for item in all_items:
     content = item["content"]
     link = item["link"]
 
-    key = normalize_title(title)
+    key = get_thread_key(title)
     tags = extract_tags(title)
 
     if key not in threads:
         threads[key] = {
-            "thread": title,   # 🔥 originele title gebruiken!
-            "tags": tags,
+            "thread": clean_title(title),
+            "tags": " ".join(tags),
             "count": 0,
             "items": []
         }
@@ -69,7 +66,6 @@ for item in all_items:
 
     threads[key]["count"] += 1
 
-# 🔹 output volgorde behouden
 result = [threads[k] for k in thread_order]
 
 with open("feed.json", "w", encoding="utf-8") as f:
