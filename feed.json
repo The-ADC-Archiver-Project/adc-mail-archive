@@ -1,60 +1,64 @@
 [
   {
     "thread": "test",
+    "tag": "[ADC]",
     "count": 2,
     "items": [
-      {
-        "title": "[ADC] Re: [TEST]",
-        "content": "test on threads\n\nOp 15-04-2026 om 21:46 schreef Nathan du Buy:\n\n\nthis is an test\n\n\n--\n ...",
-        "link": "http://www.freelists.org/post/adc/TEST,644"
-      },
       {
         "title": "[ADC] [TEST]",
         "content": "this is an test\n\n\n--\nNathan du Buy\nOpen Source Developer\n\n*OpenPGP fingerprint*\n|02D7 2154 D625 B937 CCA7 4FD2 3133 1ED9 0BDC 8954|\n ...",
         "link": "http://www.freelists.org/post/adc/TEST,643"
+      },
+      {
+        "title": "[ADC] Re: [TEST]",
+        "content": "test on threads\n\nOp 15-04-2026 om 21:46 schreef Nathan du Buy:\n\n\nthis is an test\n\n\n--\n ...",
+        "link": "http://www.freelists.org/post/adc/TEST,644"
       }
     ]
   },
   {
     "thread": "dev tarballs hold broken installsh and invtermsh",
+    "tag": "[ADC]",
     "count": 2,
     "items": [
-      {
-        "title": "[ADC] Re: [DEV] Tarballs hold broken install.sh and invterm.sh",
-        "content": "Has been fixed!\n\nNew tarballs are now available.\n\nOp 15-4-2026 om 18:55 schreef Nathan du Buy:\n\n\nThe official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \n ...",
-        "link": "http://www.freelists.org/post/adc/DEV-Tarballs-hold-broken-installsh-and-invtermsh,1"
-      },
       {
         "title": "[ADC] [DEV] Tarballs hold broken install.sh and invterm.sh",
         "content": "The official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \nand tomorrow night.\n\n\n--\nNathan du Buy\nOpen Source Developer\n\n*OpenPGP fingerprint*\n ...",
         "link": "http://www.freelists.org/post/adc/DEV-Tarballs-hold-broken-installsh-and-invtermsh"
+      },
+      {
+        "title": "[ADC] Re: [DEV] Tarballs hold broken install.sh and invterm.sh",
+        "content": "Has been fixed!\n\nNew tarballs are now available.\n\nOp 15-4-2026 om 18:55 schreef Nathan du Buy:\n\n\nThe official ADC 1.4.5 holds broken install.sh and invterm.sh on some \ndesktops, Im aware and fixing this issue, expect a fix in between now \n ...",
+        "link": "http://www.freelists.org/post/adc/DEV-Tarballs-hold-broken-installsh-and-invtermsh,1"
+      }
+    ]
+  },
+  {
+    "thread": "dev aurora will get newer code base",
+    "tag": "[ADC]",
+    "count": 2,
+    "items": [
+      {
+        "title": "[ADC] Re: [DEV] Aurora will get newer code base",
+        "content": "Initial branch made, will merge into ADC-Unstable coming days/week.\n\nBranch: aurora04_26 \n  \n\n\nOp 18-4-2026 om 17:28 schreef Nathan du Buy:\n\n\n ...",
+        "link": "http://www.freelists.org/post/adc/DEV-Aurora-will-get-newer-code-base,1"
+      },
+      {
+        "title": "[ADC] [DEV] Aurora will get newer code base",
+        "content": "[DEV] ADC Aurora will get a newer code base, The current canary \n   code works well which means \ni will port it to the Aurora (Unstable) branch, expect new code coming \ndays to the Aurora branch \n  .\n\n\n~Mealman1551\n\n--\n ...",
+        "link": "http://www.freelists.org/post/adc/DEV-Aurora-will-get-newer-code-base"
       }
     ]
   },
   {
     "thread": "ann this is a test mail to check the mailing list",
+    "tag": "[ADC]",
     "count": 1,
     "items": [
       {
         "title": "[ADC] [ANN] This is a test mail to check the mailing list",
         "content": "Test\n\n--\nNathan du Buy\nOpen Source Developer\n\n*OpenPGP fingerprint*\n|02D7 2154 D625 B937 CCA7 4FD2 3133 1ED9 0BDC 8954|\n\n ...",
         "link": "http://www.freelists.org/post/adc/ANN-This-is-a-test-mail-to-check-the-mailing-list"
-      }
-    ]
-  },
-  {
-    "thread": "dev aurora will get newer code base",
-    "count": 2,
-    "items": [
-      {
-        "title": "[ADC] [DEV] Aurora will get newer code base",
-        "content": "[DEV] ADC Aurora will get a newer code base, The current canary \n   code works well which means \ni will port it to the Aurora (Unstable) branch, expect new code coming \ndays to the Aurora branch \n  .\n\n\n~Mealman1551\n\n--\n ...",
-        "link": "http://www.freelists.org/post/adc/DEV-Aurora-will-get-newer-code-base"
-      },
-      {
-        "title": "[ADC] Re: [DEV] Aurora will get newer code base",
-        "content": "Initial branch made, will merge into ADC-Unstable coming days/week.\n\nBranch: aurora04_26 \n  \n\n\nOp 18-4-2026 om 17:28 schreef Nathan du Buy:\n\n\n ...",
-        "link": "http://www.freelists.org/post/adc/DEV-Aurora-will-get-newer-code-base,1"
       }
     ]
   }
