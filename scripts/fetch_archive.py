@@ -21,11 +21,11 @@ def get_month_pages():
 
     return list(pages)
 
-def get_messages(month_url):
-    r = requests.get(month_url)
+def get_messages(url):
+    r = requests.get(url)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    messages = []
+    msgs = []
 
     for a in soup.find_all("a"):
         href = a.get("href", "")
@@ -33,29 +33,30 @@ def get_messages(month_url):
             if not href.startswith("http"):
                 href = "https://www.freelists.org" + href
 
-            messages.append({
+            msgs.append({
                 "title": a.text.strip(),
                 "link": href
             })
 
-    return messages
+    return msgs
 
-def get_full_mail(url):
+def get_full(url):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "html.parser")
-
-    text = soup.get_text("\n")
-    return text.strip()
+    return soup.get_text("\n").strip()
 
 all_items = []
 
-for month in get_month_pages():
-    for msg in get_messages(month):
-        all_items.append({
-            "title": msg["title"],
-            "content": get_full_mail(msg["link"]),
-            "link": msg["link"]
-        })
+for page in get_month_pages():
+    try:
+        for msg in get_messages(page):
+            all_items.append({
+                "title": msg["title"],
+                "content": get_full(msg["link"]),
+                "link": msg["link"]
+            })
+    except:
+        pass
 
 with open("data/feed_raw.json", "w", encoding="utf-8") as f:
     json.dump(all_items, f, indent=2, ensure_ascii=False)
