@@ -1,8 +1,8 @@
-name: build archive
+name: Build ADC Archive
 
 on:
-  schedule:
-    - cron: "*/10 * * * *"
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -10,21 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 cloudscraper
 
-      - run: mkdir -p data
+      - name: Create data folder
+        run: mkdir -p data
 
-      - run: python scripts/fetch_archive.py
+      - name: Fetch index
+        run: python fetch_archive.py
 
-      - run: python scripts/build_index.py
+      - name: Fetch posts
+        run: python fetch_posts.py
 
-      - name: commit
+      - name: Build archive
+        run: python build_archive.py
+
+      - name: Commit results
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
