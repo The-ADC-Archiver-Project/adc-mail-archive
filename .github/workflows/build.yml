@@ -26,13 +26,13 @@ jobs:
         run: mkdir -p data
 
       - name: Fetch index
-        run: python fetch_archive.py
+        run: scripts/python fetch_archive.py
 
       - name: Fetch posts
-        run: python fetch_posts.py
+        run: scripts/python fetch_posts.py
 
       - name: Build archive
-        run: python build_archive.py
+        run: scripts/python build_archive.py
 
       - name: Commit results
         run: |
