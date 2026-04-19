@@ -2,25 +2,22 @@ import json
 import re
 import os
 
-def get_thread_key(title):
+def normalize_title(title):
     t = title.lower()
     t = re.sub(r"(\bre:\s*)+", "", t, flags=re.IGNORECASE)
-    t = re.sub(r"^\[[^\]]+\]\s*", "", t)
+    t = re.sub(r"\[[^\]]+\]", "", t)  # verwijder ALLE tags
     t = re.sub(r"[^\w\s]", "", t)
     t = re.sub(r"\s+", " ", t)
     return t.strip()
 
-def extract_tag(title):
-    match = re.match(r"^\[([^\]]+)\]", title)
-    if match:
-        return f"[{match.group(1).upper()}]"
-    return ""
+def extract_tags(title):
+    return " ".join(re.findall(r"\[[^\]]+\]", title))
 
 # 🔹 load RSS
 with open("feed_raw.json", "r", encoding="utf-8") as f:
     new_data = json.load(f)
 
-# 🔹 load existing archive
+# 🔹 load bestaande archive
 existing_items = []
 
 if os.path.exists("feed.json"):
@@ -32,50 +29,48 @@ if os.path.exists("feed.json"):
 
 # 🔹 deduplicate
 existing_links = set(item["link"] for item in existing_items)
-all_items = existing_items.copy()
+
+# 🔥 NIEUWSTE ITEMS ECHT BOVENAAN
+all_items = []
 
 for item in new_data:
     if item["link"] not in existing_links:
         all_items.append(item)
 
+# daarna oude items
+all_items.extend(existing_items)
+
 # 🔹 build threads
 threads = {}
+thread_order = []
 
 for item in all_items:
     title = item["title"]
     content = item["content"]
     link = item["link"]
 
-    thread_key = get_thread_key(title)
-    tag = extract_tag(title)
+    key = normalize_title(title)
+    tags = extract_tags(title)
 
-    if thread_key not in threads:
-        threads[thread_key] = {
-            "thread": thread_key,
-            "tag": tag,
+    if key not in threads:
+        threads[key] = {
+            "thread": title,   # 🔥 originele title gebruiken!
+            "tags": tags,
             "count": 0,
             "items": []
         }
+        thread_order.append(key)
 
-    threads[thread_key]["items"].append({
+    threads[key]["items"].append({
         "title": title,
         "content": content,
         "link": link
     })
 
-    threads[thread_key]["count"] += 1
+    threads[key]["count"] += 1
 
-# 🔥 sort mails binnen thread (nieuwste eerst)
-for thread in threads.values():
-    thread["items"] = list(reversed(thread["items"]))
+# 🔹 output volgorde behouden
+result = [threads[k] for k in thread_order]
 
-# 🔥 sort threads (nieuwste eerst)
-sorted_threads = sorted(
-    threads.values(),
-    key=lambda t: t["items"][0]["link"],  # werkt omdat RSS newest first is
-    reverse=True
-)
-
-# 🔹 save
 with open("feed.json", "w", encoding="utf-8") as f:
-    json.dump(sorted_threads, f, indent=2, ensure_ascii=False)
+    json.dump(result, f, indent=2, ensure_ascii=False)
