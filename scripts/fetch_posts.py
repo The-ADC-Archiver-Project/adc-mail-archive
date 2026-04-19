@@ -26,6 +26,7 @@ for month in index["months"]:
             full_url = "https://www.freelists.org" + href
 
             pr = scraper.get(full_url)
+            print(pr.text[:2000])
             psoup = BeautifulSoup(pr.text, "html.parser")
 
             # Afzender, ontvanger, datum
