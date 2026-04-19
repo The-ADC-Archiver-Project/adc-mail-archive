@@ -1,64 +1,49 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+from urllib.parse import urljoin
 
 BASE = "https://www.freelists.org/archive/adc"
 
-def get_month_pages():
-    r = requests.get(BASE)
+def get_all_message_links():
+    r = requests.get(BASE, timeout=30)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    pages = []
+    links = set()
 
     for a in soup.find_all("a"):
         href = a.get("href", "")
 
-        if "archive/adc/" in href and len(href.split("/")) > 3:
-            if href.startswith("http"):
-                pages.append(href)
-            else:
-                pages.append("https://www.freelists.org" + href)
+        if "/post/adc/" in href:
+            full = urljoin("https://www.freelists.org", href)
+            links.add(full)
 
-    return list(set(pages))
+    return list(links)
 
-def get_messages(month_url):
-    r = requests.get(month_url)
+def get_mail(url):
+    r = requests.get(url, timeout=30)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    msgs = []
+    title = soup.title.text.strip() if soup.title else url
+    content = soup.get_text("\n")
 
-    for a in soup.find_all("a"):
-        href = a.get("href", "")
-        text = a.text.strip()
+    return {
+        "title": title,
+        "content": content,
+        "link": url
+    }
 
-        if "/post/adc/" in href and text.startswith("»"):
-            if not href.startswith("http"):
-                href = "https://www.freelists.org" + href
+def main():
+    items = []
 
-            msgs.append({
-                "title": text.replace("»", "").strip(),
-                "link": href
-            })
+    for url in get_all_message_links():
+        try:
+            items.append(get_mail(url))
+        except Exception as e:
+            print("fail:", url, e)
 
-    return msgs
+    with open("data/feed_raw.json", "w", encoding="utf-8") as f:
+        json.dump(items, f, indent=2, ensure_ascii=False)
 
-def get_full(url):
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "html.parser")
-    return soup.get_text("\n").strip()
-
-all_items = []
-
-for month in get_month_pages():
-    try:
-        for msg in get_messages(month):
-            all_items.append({
-                "title": msg["title"],
-                "content": get_full(msg["link"]),
-                "link": msg["link"]
-            })
-    except Exception as e:
-        print("error month:", month, e)
-
-with open("data/feed_raw.json", "w", encoding="utf-8") as f:
-    json.dump(all_items, f, indent=2, ensure_ascii=False)
+if __name__ == "__main__":
+    main()

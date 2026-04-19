@@ -43,7 +43,7 @@ function render(data) {
 }
 
 function load() {
-  fetch("../data/feed.json")
+  fetch("./data/feed.json")
     .then(r => r.json())
     .then(d => {
       render(d)

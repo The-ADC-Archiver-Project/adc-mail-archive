@@ -1,23 +1,14 @@
 import json
 import re
 
-def extract_tags(title):
-    tags = re.findall(r"\[([^\]]+)\]", title)
-    seen = []
-    for t in tags:
-        t = t.upper().strip()
-        if t not in seen:
-            seen.append(t)
-    return seen
-
-def strip_tags(title):
-    return re.sub(r"\[[^\]]+\]", "", title).strip()
-
 def clean_key(title):
-    t = strip_tags(title)
-    t = re.sub(r"(\bre:\s*)+", "", t, flags=re.IGNORECASE)
+    t = re.sub(r"\[[^\]]+\]", "", title)
+    t = re.sub(r"re:\s*", "", t, flags=re.IGNORECASE)
     t = re.sub(r"\s+", " ", t)
     return t.lower().strip()
+
+def extract_tags(title):
+    return list(dict.fromkeys(re.findall(r"\[([^\]]+)\]", title.upper())))
 
 with open("data/feed_raw.json", "r", encoding="utf-8") as f:
     items = json.load(f)
@@ -25,13 +16,12 @@ with open("data/feed_raw.json", "r", encoding="utf-8") as f:
 threads = {}
 
 for item in items:
-    title = item["title"]
-    key = clean_key(title)
+    key = clean_key(item["title"])
 
     if key not in threads:
         threads[key] = {
-            "thread": strip_tags(title),
-            "tags": extract_tags(title),
+            "thread": item["title"],
+            "tags": extract_tags(item["title"]),
             "count": 0,
             "items": []
         }
