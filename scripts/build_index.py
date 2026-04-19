@@ -13,7 +13,6 @@ def extract_tags(title):
     return re.findall(r"\[[^\]]+\]", title)
 
 def clean_title(title):
-    title = re.sub(r"^\[[^\]]+\]\s*", "", title)
     title = re.sub(r"(\bre:\s*)+", "", title, flags=re.IGNORECASE)
     return title.strip()
 
@@ -30,8 +29,8 @@ if os.path.exists("feed.json"):
                 existing_items.append(item)
 
 existing_links = set(item["link"] for item in existing_items)
-all_items = []
 
+all_items = []
 for item in new_data:
     if item["link"] not in existing_links:
         all_items.append(item)
@@ -47,12 +46,14 @@ for item in all_items:
     link = item["link"]
 
     key = get_thread_key(title)
-    tags = extract_tags(title)
 
     if key not in threads:
+        # 🔥 TAGS ONLY ONCE (IMPORTANT FIX)
+        tags = extract_tags(title)
+
         threads[key] = {
             "thread": clean_title(title),
-            "tags": " ".join(tags),
+            "tags": " ".join(tags),   # NO duplication possible anymore
             "count": 0,
             "items": []
         }
