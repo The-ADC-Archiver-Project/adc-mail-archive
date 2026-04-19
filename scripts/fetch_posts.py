@@ -28,7 +28,21 @@ for month in index["months"]:
             pr = scraper.get(full_url)
             psoup = BeautifulSoup(pr.text, "html.parser")
 
-            text = psoup.get_text("\n", strip=True)
+            # Afzender, ontvanger, datum
+            body_parts = []
+            for label in ["From", "To", "Date"]:
+                tag = psoup.find(text=label)
+                if tag and tag.parent:
+                    val = tag.parent.find_next_sibling()
+                    if val:
+                        body_parts.append(f"{label}: {val.get_text(strip=True)}")
+
+            # Mail body uit <pre> tag
+            pre = psoup.find("pre")
+            if pre:
+                body_parts.append("\n" + pre.get_text("\n", strip=True))
+
+            text = "\n".join(body_parts)
 
             posts.append({
                 "title": title,
