@@ -1,6 +1,5 @@
 import json
 import re
-import os
 
 def get_thread_key(title):
     t = title.lower()
@@ -11,78 +10,28 @@ def get_thread_key(title):
 
 def extract_tags(title):
     tags = re.findall(r"\[[^\]]+\]", title)
-    cleaned = []
+    seen = []
     for t in tags:
         t = t.strip().upper()
-        if t not in cleaned:
-            cleaned.append(t)
-    return cleaned
+        if t not in seen:
+            seen.append(t)
+    return seen
 
 def clean_title(title):
     title = re.sub(r"^\[[^\]]+\]\s*", "", title)
     title = re.sub(r"(\bre:\s*)+", "", title, flags=re.IGNORECASE)
     return title.strip()
 
-def normalize_tags(tags):
-    if isinstance(tags, str):
-        tags = re.findall(r"\[[^\]]+\]", tags)
-
-    cleaned = []
-    for t in tags:
-        t = t.strip().upper()
-        if t not in cleaned:
-            cleaned.append(t)
-    return cleaned
-
-def load_old_threads():
-    if not os.path.exists("feed.json"):
-        return {}
-
-    with open("feed.json", "r", encoding="utf-8") as f:
-        old = json.load(f)
-
-    fixed = {}
-
-    for thread in old:
-        tags = normalize_tags(thread.get("tags", []))
-
-        fixed[thread["thread"].lower()] = {
-            "thread": thread["thread"],
-            "tags": tags,
-            "count": thread["count"],
-            "items": thread["items"]
-        }
-
-    return fixed
-
-
-# =========================
-# LOAD INPUT
-# =========================
-
 with open("feed_raw.json", "r", encoding="utf-8") as f:
     items = json.load(f)
 
-threads = load_old_threads()
-order = list(threads.keys())
-
-existing_links = set()
-
-for t in threads.values():
-    for item in t["items"]:
-        existing_links.add(item["link"])
-
-# =========================
-# PROCESS NEW ITEMS
-# =========================
+threads = {}
+order = []
 
 for item in items:
     title = item["title"]
     content = item["content"]
     link = item["link"]
-
-    if link in existing_links:
-        continue
 
     key = get_thread_key(title)
 
@@ -102,11 +51,6 @@ for item in items:
     })
 
     threads[key]["count"] += 1
-    existing_links.add(link)
-
-# =========================
-# OUTPUT
-# =========================
 
 result = [threads[k] for k in order]
 
