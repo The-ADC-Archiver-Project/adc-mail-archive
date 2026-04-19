@@ -12,7 +12,7 @@ function render(months) {
     const header = document.createElement("h2")
     header.textContent = month.month
     app.appendChild(header)
-    month.posts.forEach(post => {
+    month.posts.slice().reverse().forEach(post => {
       const el = document.createElement("div")
       el.style = "margin-bottom:12px; border:1px solid #ddd; padding:8px;"
       el.innerHTML = `
