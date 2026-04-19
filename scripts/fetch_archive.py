@@ -5,45 +5,86 @@ from urllib.parse import urljoin
 
 BASE = "https://www.freelists.org/archive/adc"
 
-def get_all_message_links():
-    r = requests.get(BASE, timeout=30)
-    soup = BeautifulSoup(r.text, "html.parser")
+session = requests.Session()
+session.headers.update({
+    "User-Agent": "Mozilla/5.0"
+})
 
+def get_soup(url):
+    r = session.get(url, timeout=30)
+    return BeautifulSoup(r.text, "html.parser")
+
+def extract_post_links(soup):
     links = set()
 
-    for a in soup.find_all("a"):
-        href = a.get("href", "")
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
 
         if "/post/adc/" in href:
-            full = urljoin("https://www.freelists.org", href)
-            links.add(full)
+            links.add(urljoin("https://www.freelists.org", href))
 
-    return list(links)
+    return links
 
-def get_mail(url):
-    r = requests.get(url, timeout=30)
-    soup = BeautifulSoup(r.text, "html.parser")
+def extract_month_links(soup):
+    links = set()
 
-    title = soup.title.text.strip() if soup.title else url
-    content = soup.get_text("\n")
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
 
-    return {
-        "title": title,
-        "content": content,
-        "link": url
-    }
+        if "/archive/adc/" in href and href != "/archive/adc":
+            links.add(urljoin("https://www.freelists.org", href))
 
-def main():
-    items = []
+    return links
 
-    for url in get_all_message_links():
-        try:
-            items.append(get_mail(url))
-        except Exception as e:
-            print("fail:", url, e)
+def get_full_post(url):
+    soup = get_soup(url)
+    text = soup.get_text("\n")
+    return text.strip()
 
-    with open("data/feed_raw.json", "w", encoding="utf-8") as f:
-        json.dump(items, f, indent=2, ensure_ascii=False)
+def get_title(soup):
+    h1 = soup.find("h1")
+    if h1:
+        return h1.get_text(strip=True)
+    return "no title"
 
-if __name__ == "__main__":
-    main()
+all_posts = set()
+to_visit = set([BASE])
+visited = set()
+
+while to_visit:
+    url = to_visit.pop()
+    if url in visited:
+        continue
+
+    visited.add(url)
+
+    try:
+        soup = get_soup(url)
+    except Exception:
+        continue
+
+    posts = extract_post_links(soup)
+    all_posts.update(posts)
+
+    months = extract_month_links(soup)
+    to_visit.update(months)
+
+print("FOUND POSTS:", len(all_posts))
+
+items = []
+
+for link in all_posts:
+    try:
+        soup = get_soup(link)
+        items.append({
+            "title": get_title(soup),
+            "content": soup.get_text("\n"),
+            "link": link
+        })
+    except Exception:
+        continue
+
+with open("data/feed_raw.json", "w", encoding="utf-8") as f:
+    json.dump(items, f, indent=2, ensure_ascii=False)
+
+print("DONE ITEMS:", len(items))
