@@ -32,6 +32,9 @@ jobs:
 
       - name: Fetch posts
         run: python scripts/fetch_posts.py
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
 
       - name: Build archive
         run: python scripts/build_archive.py
