@@ -11,6 +11,15 @@ HEADERS = {
 
 def get_month_pages():
     r = requests.get(BASE, headers=HEADERS, timeout=30)
+    
+    
+    print("STATUS:", r.status_code)
+    print("FINAL URL:", r.url)
+    print("HEADERS:", r.headers.get("content-type"))
+    print("HTML SNIPPET:")
+    print(r.text[:1000])
+    
+    
     soup = BeautifulSoup(r.text, "html.parser")
 
     pages = set()
