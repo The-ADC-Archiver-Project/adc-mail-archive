@@ -34,6 +34,17 @@ def get_body(msg):
             body = payload.decode(msg.get_content_charset() or "utf-8", errors="replace")
     return body.strip()
 
+# Laad bestaande archive in (als die bestaat)
+os.makedirs("data", exist_ok=True)
+archive_path = "data/archive.json"
+
+existing = {}
+if os.path.exists(archive_path):
+    with open(archive_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    for m in data["months"]:
+        existing[m["month"]] = {p["title"]: p for p in m["posts"]}
+
 mail = imaplib.IMAP4_SSL("imap.gmail.com")
 mail.login(GMAIL_USER, GMAIL_PASS)
 mail.select("inbox")
@@ -42,7 +53,7 @@ status, messages = mail.search(None, 'FROM "dmarc-noreply@freelists.org"')
 
 print("Gevonden:", len(messages[0].split()))
 
-result = {}
+new_posts = {}
 
 for num in messages[0].split():
     status, data = mail.fetch(num, "(RFC822)")
@@ -59,27 +70,37 @@ for num in messages[0].split():
     else:
         month_key = "unknown"
 
-    if month_key not in result:
-        result[month_key] = []
+    if month_key not in new_posts:
+        new_posts[month_key] = {}
 
-    result[month_key].append({
+    new_posts[month_key][subject] = {
         "title": subject,
         "url": url,
         "body": body
-    })
+    }
 
 mail.logout()
 
+# Samenvoegen: bestaande data + nieuwe data
+merged = {}
+
+all_keys = set(existing.keys()) | set(new_posts.keys())
+for key in all_keys:
+    merged[key] = {}
+    if key in existing:
+        merged[key].update(existing[key])
+    if key in new_posts:
+        merged[key].update(new_posts[key])  # nieuwe posts overschrijven/voegen toe
+
 output = {
     "months": [
-        {"month": k, "posts": v}
-        for k, v in sorted(result.items(), key=lambda x: x[0])
+        {"month": k, "posts": list(v.values())}
+        for k, v in sorted(merged.items(), key=lambda x: (int(x[0].split("-")[1]), int(x[0].split("-")[0])))
     ]
 }
 
-os.makedirs("data", exist_ok=True)
-
-with open("data/archive.json", "w", encoding="utf-8") as f:
+with open(archive_path, "w", encoding="utf-8") as f:
     json.dump(output, f, indent=2, ensure_ascii=False)
 
-print("DONE, mails gevonden:", sum(len(v) for v in result.values()))
+total = sum(len(v) for v in merged.values())
+print("DONE, totaal mails in archive:", total)
