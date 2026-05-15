@@ -76,7 +76,9 @@ for num in messages[0].split():
     new_posts[month_key][subject] = {
         "title": subject,
         "url": url,
-        "body": body
+        "body": body,
+        "date": date,
+        "timestamp": parsed_date
     }
 
 mail.logout()

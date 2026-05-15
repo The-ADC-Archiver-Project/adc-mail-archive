@@ -1,15 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ADC Mailinglist Archive</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f7fa;
+      color: #333;
+    }
+    
+    h1 {
+      color: #0066cc;
+      border-bottom: 3px solid #0066cc;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    
+    h3 {
+      margin: 10px 0;
+    }
+    
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    #app {
+      background: white;
+      padding: 20px;
+      border-radius: 6px;
+    }
+    
+    #last-update {
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 15px;
+    }
+    
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 15px 0;
+    }
+  </style>
 </head>
 <body>
-  <h1>Public ADC Mailinglist Archive</h1>
+  <h1>📧 ADC Mailinglist Archive</h1>
 
   <h3>More info:</h3>
-  <a href="https://www.freelists.org/list/adc">check the mailinglist page</a>
+  <a href="https://www.freelists.org/list/adc">Visit the mailinglist page</a>
 
-<hr>
+  <hr>
 
   <p id="last-update"></p>
   <div id="app"></div>
