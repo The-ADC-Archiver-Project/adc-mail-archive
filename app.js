@@ -40,7 +40,7 @@ function formatTimestamp(timestamp) {
   }
   const [year, month, day, hour, minute, second] = timestamp;
   const date = new Date(year, month - 1, day, hour, minute, second);
-  return date.toLocaleDateString('nl-NL', { 
+  return date.toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'long', 
     day: 'numeric',
