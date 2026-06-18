@@ -1,5 +1,4 @@
-name: Build ADC Archive
-
+name: Build mailing archive
 on:
   push:
     branches: [ main ]
