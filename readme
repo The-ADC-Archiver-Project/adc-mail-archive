@@ -1,0 +1,14 @@
+ADC mailinglist archive
+========================
+
+This repository contains the files and workflows for deploying the ADC Archiver Mailinglist Archive.
+
+Cloning the repository
+----------------------
+
+There is no need to clone this repository as it does not contain any buildable code. This repository is only used to store the files and workflows for deploying the ADC Archiver Mailinglist Archive.
+
+Where to find the archive?
+--------------------------
+
+https://the-adc-archiver-project.github.io/adc-mail-archive/
