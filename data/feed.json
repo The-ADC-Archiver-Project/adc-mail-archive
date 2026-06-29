@@ -505,6 +505,23 @@
             1,
             -1
           ]
+        },
+        {
+          "title": "[ADC] [ANN] security updates not compiled until July 26 2026",
+          "url": "",
+          "body": "Hi,\r\n\r\nIm going on vacation on July 4 2026 and I will be back on July 26 2026, \r\nthis means that I can't fix security updates in this time window. If a \r\nvulnerability is found in the ADC Archiver codebase please use the \r\npatched pypi libraries and run or compile the source code yourself.\r\n\r\nChances that ADC Archiver gets vulnerable are low but please check the \r\nsecurity page of ADC Archiver \r\n<https://github.com/Mealman1551/ArchivedDataCodec/security/dependabot>\r\n\r\nThats all :)\r\n\r\n-- \r\nNathan du Buy\r\nOpen Source Developer\r\n\r\n*OpenPGP fingerprint*\r\n|02D7 2154 D625 B937 CCA7 4FD2 3133 1ED9 0BDC 8954|\r\n\r\n*Web*\r\nmealman1551.github.io <https://mealman1551.github.io>\r\nnathandubuy.pages.dev <https://nathandubuy.pages.dev>\r\n------------------------------------------------------------------------\r\n*OpenPGP Public Key*\r\n\r\n-----BEGIN PGP PUBLIC KEY BLOCK-----\r\n\r\nmDMEaaGdEhYJKwYBBAHaRw8BAQdA+uJKmZ/A1I5B8AhhSrDu2Mi6z7KnePI7zCfP\r\nsH4vz9S0Jk5hdGhhbiBkdSBCdXkgPG5hdGhhbmR1YnV5NEBnbWFpbC5jb20+iJAE\r\nExYKADgWIQQC1yFU1iW5N8ynT9IxMx7ZC9yJVAUCaaGdEgIbAwULCQgHAgYVCgkI\r\nCwIEFgIDAQIeAQIXgAAKCRAxMx7ZC9yJVDNwAP46xA34c7YVSNQNP3SydvGjXVhq\r\nqbc56jGGYyxQtlN0FgEA3IBIEzm7afEQ7r7OTpV0o6C3DQoQ7FK7T4T4q9yogwi4\r\nOARpoZ0SEgorBgEEAZdVAQUBAQdAauG2VGsKhSiJP+cUZeesIInvWa7tH1YYy7ni\r\nYKjLQzUDAQgHiHgEGBYKACAWIQQC1yFU1iW5N8ynT9IxMx7ZC9yJVAUCaaGdEgIb\r\nDAAKCRAxMx7ZC9yJVGQLAQCrfxz8TplTNnhptGRj5kYZ9+aB7lq4KRT9rKbn0ImG\r\ncAEAqx76sL3vI7rz24LzFhxms949C53GB4TbpBgXNaMafgU=\r\n=0/wj\r\n-----END PGP PUBLIC KEY BLOCK-----",
+          "date": "Mon, 29 Jun 2026 22:16:40 +0200",
+          "timestamp": [
+            2026,
+            6,
+            29,
+            22,
+            16,
+            40,
+            0,
+            1,
+            -1
+          ]
         }
       ]
     }
