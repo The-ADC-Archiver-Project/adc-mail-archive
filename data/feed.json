@@ -524,6 +524,28 @@
           ]
         }
       ]
+    },
+    {
+      "month": "08-2026",
+      "posts": [
+        {
+          "title": "[ADC] [ANN] ADC 1.3 is end of life (EOL) and PSA",
+          "url": "",
+          "body": "Hello,\r\n\r\nADC 1.3 support has officially dropped as of 15-8-2026, this means that \r\nit will not get any updates anymore, please upgrade to version 1.4.5 \r\nLTS, this release will be updated until 18-10-2029.\r\n\r\n*PSA*\r\n\r\nYou might have noticed that i was gone for a while, i was for 3 weeks in \r\nGermany and i bought a new PC, it doesnt fit in the current room so \r\nthere will be a rearrange soon, my files arent all on the PC so yeah. \r\nAll of these factors made it so that i was gone and i still am \r\nsometimes, i have been starting to program again but my room is just not \r\nokey yet, it will take a few months until im fuly back but for now im \r\nstarting again on a low pace.\r\n\r\nThank you,\r\nNathan\r\n\r\n-- \r\nNathan du Buy\r\nOpen Source Developer\r\n\r\n*OpenPGP fingerprint*\r\n|02D7 2154 D625 B937 CCA7 4FD2 3133 1ED9 0BDC 8954|\r\n\r\n*Web*\r\nmealman1551.github.io <https://mealman1551.github.io>\r\nnathandubuy.pages.dev <https://nathandubuy.pages.dev>\r\n------------------------------------------------------------------------\r\n*OpenPGP Public Key*\r\n\r\n-----BEGIN PGP PUBLIC KEY BLOCK-----\r\n\r\nmDMEaaGdEhYJKwYBBAHaRw8BAQdA+uJKmZ/A1I5B8AhhSrDu2Mi6z7KnePI7zCfP\r\nsH4vz9S0Jk5hdGhhbiBkdSBCdXkgPG5hdGhhbmR1YnV5NEBnbWFpbC5jb20+iJAE\r\nExYKADgWIQQC1yFU1iW5N8ynT9IxMx7ZC9yJVAUCaaGdEgIbAwULCQgHAgYVCgkI\r\nCwIEFgIDAQIeAQIXgAAKCRAxMx7ZC9yJVDNwAP46xA34c7YVSNQNP3SydvGjXVhq\r\nqbc56jGGYyxQtlN0FgEA3IBIEzm7afEQ7r7OTpV0o6C3DQoQ7FK7T4T4q9yogwi4\r\nOARpoZ0SEgorBgEEAZdVAQUBAQdAauG2VGsKhSiJP+cUZeesIInvWa7tH1YYy7ni\r\nYKjLQzUDAQgHiHgEGBYKACAWIQQC1yFU1iW5N8ynT9IxMx7ZC9yJVAUCaaGdEgIb\r\nDAAKCRAxMx7ZC9yJVGQLAQCrfxz8TplTNnhptGRj5kYZ9+aB7lq4KRT9rKbn0ImG\r\ncAEAqx76sL3vI7rz24LzFhxms949C53GB4TbpBgXNaMafgU=\r\n=0/wj\r\n-----END PGP PUBLIC KEY BLOCK-----",
+          "date": "Sat, 1 Aug 2026 14:00:43 +0200",
+          "timestamp": [
+            2026,
+            8,
+            1,
+            14,
+            0,
+            43,
+            0,
+            1,
+            -1
+          ]
+        }
+      ]
     }
   ]
 }
